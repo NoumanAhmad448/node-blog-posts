@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "pm2": "^5.3.0",
+    "uuid": "^9.0.1"
+  },
+  "name": "blog-posts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon",
+    "start": "nodemon index.js -p 3000 -n node-blog-posts",
+    "stop": "pm2 stop node-blog-posts",
+    "restart": "pm2 restart node-blog-posts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoumanAhmad448/node-blog-posts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoumanAhmad448/node-blog-posts/issues"
+  },
+  "homepage": "https://github.com/NoumanAhmad448/node-blog-posts#readme",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
