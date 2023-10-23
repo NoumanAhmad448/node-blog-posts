@@ -1,5 +1,5 @@
 import express from 'express'
-import readMessage,{readAllMessage,saveMessage,updateMessage} from '../../functions.js'
+import ChatCollection from '../../functions.js'
 import {env,logger} from "../../imported_libs.js"
 import Joi from 'joi'
 import messages from './messages.js'
@@ -42,7 +42,7 @@ auth.get(``, async(req, res) => {
         api_response.message = data.error.details || data.error
         res.status(412).json(api_response)
     }else{
-        const response = await readAllMessage(data && data.value ? data.value : req.body).catch((error) => {
+        const response = await ChatCollection.readAllMessage(data && data.value ? data.value : req.body).catch((error) => {
             logger.info(error)
             api_response.message = error.message || sys_msg.err_msg
             res.status(500).json(api_response)
@@ -65,7 +65,7 @@ auth.get(``, async(req, res) => {
         api_response.message = data.error.details || data.error
         res.status(412).json(api_response)
     }else{
-        const response = await readMessage(data.value).catch((error) => {
+        const response = await ChatCollection.readMessage(data.value).catch((error) => {
             logger.info(error)
             api_response.message = error.message || sys_msg.err_msg
             res.status(500).json(api_response)
@@ -89,7 +89,7 @@ auth.get(``, async(req, res) => {
         api_response.message = data.error.details || data.error
         res.status(412).json(api_response)
     }else{
-        const response = await saveMessage([data.value]).catch((error) => {
+        const response = await ChatCollection.saveMessage([data.value]).catch((error) => {
             logger.info(error)
             api_response.message = error.message || sys_msg.err_msg
             res.status(500).json(api_response)
@@ -103,6 +103,7 @@ auth.get(``, async(req, res) => {
         _id: validation.id,
         data: Joi.object({
             message: msg_validation.message,
+            views: validation.views(false),
         }).required()
     })
     const api_response = {}
@@ -116,7 +117,7 @@ auth.get(``, async(req, res) => {
         res.status(412).json(api_response)
     }else{
         logger.info(data.value)
-        const response = await updateMessage(data.value).catch((error) => {
+        const response = await ChatCollection.updateMessage(data.value).catch((error) => {
             logger.info(error)
             api_response.message = error.message || sys_msg.err_msg
             res.status(500).json(api_response)
@@ -130,6 +131,21 @@ auth.get(``, async(req, res) => {
             api_response.message = sys_msg.update_msg
             res.status(200).json(api_response)
         }
+    }
+}).post("/chat-report", async(req,res)=>{
+    let api_response = {}
+
+    const response = await ChatCollection.chatReporting().catch((error) => {
+        logger.info(error)
+        api_response.message = error.message || sys_msg.err_msg
+        res.status(500).json(api_response)
+    })
+    logger.info(JSON.stringify(response))
+    api_response.data = response
+
+    if(response){
+        api_response.message = sys_msg.update_msg
+        res.status(200).json(api_response)
     }
 })
 

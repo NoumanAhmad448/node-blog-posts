@@ -17,7 +17,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon",
+    "dev": "nodemon -p 3000",
     "start": "nodemon index.js -p 3000 -n node-blog-posts",
     "stop": "pm2 stop node-blog-posts",
     "restart": "pm2 restart node-blog-posts"

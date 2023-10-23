@@ -26,6 +26,13 @@ export const validation = {
             }
             return rule
         },
+        views: (required=true) => {
+            let rule = Joi.number()
+            if(required){
+                rule.required()
+            }
+            return rule
+        },
         message: (required=true) => {
             let rule = Joi.string()
             .min(3)
